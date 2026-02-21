@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Opelia | Soft Boutique</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        opelia: {
+                            light: '#EADFF6',
+                            dark: '#5B446D',
+                            white: '#FFFFFF',
+                            bg: '#FDF8FF'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                        serif: ['Italiana', 'serif'],
+                    },
+                    borderRadius: {
+                        'xl': '1rem',
+                        '2xl': '1.5rem',
+                        '3xl': '2rem',
+                        'full': '9999px'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { background-color: #FDF8FF; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        .fade-in { animation: fadeIn 0.4s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .zoom-in { animation: zoomIn 0.5s ease-out forwards; }
+        @keyframes zoomIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+
+        /* Chat Animations */
+        .chat-enter { animation: slideUp 0.3s ease-out forwards; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .typing-dot {
+            animation: typing 1.4s infinite ease-in-out both;
+        }
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+        @keyframes typing { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
+    </style>
+</head>
+<body class="text-gray-700 font-sans antialiased">
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-opelia-light/50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-4">
+                <button class="md:hidden text-opelia-dark">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+                </button>
+                <a href="#" class="text-3xl font-serif text-opelia-dark tracking-wide">Opelia</a>
+            </div>
+
+            <div class="hidden md:flex items-center bg-opelia-light/30 rounded-full px-6 py-2 w-1/3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                <input type="text" placeholder="Search for treasures..." class="bg-transparent border-none outline-none text-sm w-full placeholder-gray-400 font-sans">
+            </div>
+
+            <div class="flex items-center gap-4">
+                <button onclick="toggleCart()" class="relative p-2 hover:bg-opelia-light rounded-full transition duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-opelia-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>
+                    <span id="cart-count" class="absolute top-0 right-0 bg-opelia-dark text-white text-[10px] font-bold h-4 w-4 flex items-center justify-center rounded-full border-2 border-white">0</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="container mx-auto px-6 py-12">
+        <div class="bg-opelia-light rounded-3xl p-8 md:p-16 flex flex-col md:flex-row items-center justify-between relative overflow-hidden shadow-lg shadow-opelia-light/50">
+            <div class="absolute -top-10 -right-10 w-40 h-40 bg-white rounded-full opacity-50"></div>
+            <div class="absolute bottom-10 left-10 w-20 h-20 bg-white rounded-full opacity-50"></div>
+
+            <div class="md:w-1/2 z-10">
+                <span class="inline-block bg-white text-opelia-dark px-4 py-1 rounded-full text-xs font-bold tracking-widest uppercase mb-4 shadow-sm font-sans">New Season</span>
+                <h1 class="text-5xl md:text-7xl font-serif text-opelia-dark leading-tight mb-6">
+                    Softness <br> Meets Style
+                </h1>
+                <p class="text-gray-600 mb-8 text-lg font-light max-w-md font-sans">
+                    Explore our curated collection of Frames, Fashion, and Party essentials.
+                </p>
+                <button onclick="scrollToShop()" class="bg-opelia-dark text-white px-8 py-3 rounded-full font-medium hover:bg-opacity-90 transition shadow-lg transform hover:-translate-y-1 font-sans">
+                    Shop Now
+                </button>
+            </div>
+            <div class="md:w-1/2 mt-8 md:mt-0 z-10 flex justify-center">
+                <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
+                     class="rounded-3xl shadow-2xl transform rotate-2 hover:rotate-0 transition duration-500 w-full max-w-sm object-cover h-80">
+            </div>
+        </div>
+    </header>
+
+    <!-- Product Catalog -->
+    <main id="shop" class="container mx-auto px-6 py-12">
+        
+        <!-- Category Filter -->
+        <div class="flex flex-wrap justify-center gap-4 mb-10">
+            <button onclick="filterProducts('all')" class="filter-btn active bg-opelia-dark text-white px-6 py-2 rounded-full font-medium transition shadow-md" data-category="all">All</button>
+            <button onclick="filterProducts('Fashion')" class="filter-btn bg-white text-gray-600 border border-gray-200 px-6 py-2 rounded-full font-medium hover:bg-opelia-light hover:border-opelia-light transition" data-category="Fashion">Fashion</button>
+            <button onclick="filterProducts('Frames')" class="filter-btn bg-white text-gray-600 border border-gray-200 px-6 py-2 rounded-full font-medium hover:bg-opelia-light hover:border-opelia-light transition" data-category="Frames">Frames</button>
+            <button onclick="filterProducts('Party Items')" class="filter-btn bg-white text-gray-600 border border-gray-200 px-6 py-2 rounded-full font-medium hover:bg-opelia-light hover:border-opelia-light transition" data-category="Party Items">Party Items</button>
+        </div>
+
+        <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <!-- Products injected here -->
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white mt-20 rounded-t-3xl py-12 border-t border-opelia-light">
+        <div class="container mx-auto px-6 text-center">
+            <h3 class="text-2xl font-serif text-opelia-dark mb-4">Opelia.</h3>
+            <p class="text-gray-400 text-sm mb-6 font-sans">Designed with love and rounded corners.</p>
+            <div class="flex justify-center space-x-6 mb-8">
+                <a href="#" class="text-gray-400 hover:text-opelia-dark transition font-sans">Instagram</a>
+                <a href="#" class="text-gray-400 hover:text-opelia-dark transition font-sans">Twitter</a>
+            </div>
+            <p class="text-xs text-gray-300 font-sans">&copy; 2023 Opelia Store. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- PRODUCT DETAIL MODAL -->
+    <div id="product-modal" class="fixed inset-0 z-50 hidden">
+        <div class="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity" onclick="closeProductModal()"></div>
+        <div class="absolute inset-0 flex items-center justify-center p-4">
+            <div class="bg-white w-full max-w-4xl rounded-3xl shadow-2xl overflow-hidden flex flex-col md:flex-row max-h-[90vh] md:max-h-auto zoom-in relative">
+                <button onclick="closeProductModal()" class="absolute top-4 right-4 z-10 bg-white/80 p-2 rounded-full hover:bg-white transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-800" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+                <div class="md:w-1/2 bg-gray-100 h-64 md:h-auto relative">
+                    <img id="modal-img" src="" alt="Product" class="w-full h-full object-cover">
+                </div>
+                <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-center overflow-y-auto">
+                    <span id="modal-category" class="text-opelia-dark text-sm font-bold uppercase tracking-widest mb-2 font-sans">Category</span>
+                    <h2 id="modal-title" class="text-4xl font-serif text-gray-900 mb-4">Product Title</h2>
+                    <p id="modal-price" class="text-2xl text-gray-600 font-light mb-6 font-sans">$0.00</p>
+                    <p class="text-gray-500 leading-relaxed mb-8 font-sans">
+                        Premium quality item perfect for your lifestyle.
+                    </p>
+                    <button onclick="orderOnWhatsApp()" class="w-full bg-[#25D366] text-white py-4 rounded-full font-medium hover:bg-opacity-90 transition shadow-lg flex justify-center items-center gap-2 font-sans">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                        Order on WhatsApp
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Opellia AI Chatbot -->
+    <div class="fixed bottom-6 right-6 z-50 flex flex-col items-end">
+        
+        <!-- Chat Window -->
+        <div id="chat-window" class="hidden bg-white w-80 md:w-96 rounded-3xl shadow-2xl overflow-hidden mb-4 border border-opelia-light flex flex-col h-[500px] chat-enter">
+            <!-- Header -->
+            <div class="bg-opelia-dark p-4 flex justify-between items-center rounded-t-3xl">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-opelia-dark font-serif font-bold text-lg">O</div>
+                    <div>
+                        <h3 class="text-white font-serif text-lg leading-none">Opellia</h3>
+                        <p class="text-opelia-light text-xs font-sans">AI Assistant</p>
+                    </div>
+                </div>
+                <button onclick="toggleChat()" class="text-white hover:text-opelia-light">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+            </div>
+            
+            <!-- Messages Area -->
+            <div id="chat-messages" class="flex-1 p-4 overflow-y-auto bg-gray-50 space-y-4">
+                <!-- Bot Welcome Message -->
+                <div class="flex gap-2">
+                    <div class="w-8 h-8 bg-opelia-light rounded-full flex-shrink-0 flex items-center justify-center text-opelia-dark text-xs font-bold">O</div>
+                    <div class="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm text-sm text-gray-700 max-w-[80%]">
+                        Hello! I'm Opellia. How can I help you find the perfect item today?
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input Area -->
+            <div class="p-3 bg-white border-t border-gray-100">
+                <form onsubmit="handleUserSubmit(event)" class="flex gap-2">
+                    <input type="text" id="user-input" placeholder="Ask about products..." class="flex-1 bg-gray-100 rounded-full px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-opelia-light font-sans">
+                    <button type="submit" class="bg-opelia-dark text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-opacity-90 transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transform rotate-90" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Toggle Button -->
+        <button onclick="toggleChat()" class="bg-opelia-dark text-white w-14 h-14 rounded-full shadow-lg hover:scale-110 transition duration-300 flex items-center justify-center relative">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" /></svg>
+            <span class="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full border-2 border-white"></span>
+        </button>
+    </div>
+
+    <!-- Cart Sidebar -->
+    <div id="cart-sidebar" class="fixed inset-y-0 right-0 w-full md:w-[400px] bg-white shadow-2xl transform translate-x-full transition-transform duration-300 z-50 flex flex-col rounded-l-3xl">
+        <div class="p-6 bg-opelia-light/20 flex justify-between items-center rounded-tl-3xl">
+            <h2 class="text-xl font-serif text-opelia-dark">Your Bag</h2>
+            <button onclick="toggleCart()" class="hover:bg-white p-2 rounded-full transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+        </div>
+        <div id="cart-items" class="flex-1 overflow-y-auto p-6 space-y-4 no-scrollbar">
+            <div class="text-center text-gray-400 mt-20">
+                <p class="font-sans">Your bag is empty.</p>
+            </div>
+        </div>
+        <div class="p-6 bg-gray-50 rounded-bl-3xl border-t border-gray-100">
+            <div class="flex justify-between mb-4 text-lg font-serif text-opelia-dark">
+                <span>Total</span>
+                <span id="cart-total">$0.00</span>
+            </div>
+            <button class="w-full bg-opelia-dark text-white py-4 rounded-full font-medium hover:bg-opacity-90 transition shadow-lg font-sans">
+                Checkout
+            </button>
+        </div>
+    </div>
+    
+    <div id="cart-overlay" onclick="toggleCart()" class="fixed inset-0 bg-black/20 hidden z-40 backdrop-blur-sm"></div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Updated Product Data with Categories
+        const products = [
+            { id: 1, name: "Velvet Lounge Chair", price: 299.00, category: "Frames", image: "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" },
+            { id: 2, name: "Ceramic Vase Set", price: 45.00, category: "Frames", image: "https://images.unsplash.com/photo-1578500494198-246f612d3b3d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" },
+            { id: 3, name: "Linen Summer Dress", price: 89.00, category: "Fashion", image: "https://images.unsplash.com/photo-1596783439305-d9204f2a5915?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" },
+            { id: 4, name: "Minimalist Watch", price: 120.00, category: "Fashion", image: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" },
+            { id: 5, name: "Gold Balloons Pack", price: 25.00, category: "Party Items", image: "https://images.unsplash.com/photo-1530103862676-de3c9a59af57?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" },
+            { id: 6, name: "Leather Tote", price: 150.00, category: "Fashion", image: "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" },
+            { id: 7, name: "Party Confetti", price: 15.00, category: "Party Items", image: "https://images.unsplash.com/photo-1533230696897-7e76138d8332?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" },
+            { id: 8, name: "Cozy Knit Sweater", price: 75.00, category: "Fashion", image: "https://images.unsplash.com/photo-1576566588028-4147f3842f27?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" }
+        ];
+
+        let currentProduct = null;
+        let cart = [];
+
+        // --- Product Rendering ---
+        function renderProducts(filter = 'all') {
+            const grid = document.getElementById('product-grid');
+            
+            const filteredProducts = filter === 'all' 
+                ? products 
+                : products.filter(p => p.category === filter);
+
+            grid.innerHTML = filteredProducts.map(product => `
+                <div class="group fade-in cursor-pointer" onclick="openProductModal(${product.id})">
+                    <div class="relative bg-gray-100 rounded-3xl overflow-hidden aspect-[4/5] mb-4 shadow-sm group-hover:shadow-xl transition-all duration-300">
+                        <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover transform group-hover:scale-105 transition duration-700">
+                        <div class="absolute bottom-4 right-4 bg-white p-3 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition duration-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-opelia-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-start px-2">
+                        <div>
+                            <h3 class="text-lg font-sans text-gray-900 group-hover:text-opelia-dark transition">${product.name}</h3>
+                            <p class="text-sm text-gray-500 font-sans">${product.category}</p>
+                        </div>
+                        <p class="text-opelia-dark font-medium font-sans">$${product.price.toFixed(2)}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // --- Filter Logic ---
+        function filterProducts(category) {
+            renderProducts(category);
+            
+            // Update button styles
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                if(btn.dataset.category === category) {
+                    btn.classList.remove('bg-white', 'text-gray-600', 'border-gray-200');
+                    btn.classList.add('bg-opelia-dark', 'text-white', 'shadow-md');
+                } else {
+                    btn.classList.add('bg-white', 'text-gray-600', 'border-gray-200');
+                    btn.classList.remove('bg-opelia-dark', 'text-white', 'shadow-md');
+                }
+            });
+        }
+
+        // --- Modal Logic ---
+        function openProductModal(id) {
+            currentProduct = products.find(p => p.id === id);
+            document.getElementById('modal-img').src = currentProduct.image;
+            document.getElementById('modal-title').innerText = currentProduct.name;
+            document.getElementById('modal-price').innerText = `$${currentProduct.price.toFixed(2)}`;
+            document.getElementById('modal-category').innerText = currentProduct.category;
+            document.getElementById('product-modal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeProductModal() {
+            document.getElementById('product-modal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        function orderOnWhatsApp() {
+            if (!currentProduct) return;
+            const phoneNumber = "94741387363";
+            const message = `Hello Opelia, I would like to order: *${currentProduct.name}* for $${currentProduct.price}`;
+            window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, '_blank');
+        }
+
+        // --- Chatbot Logic ---
+        function toggleChat() {
+            const chatWindow = document.getElementById('chat-window');
+            chatWindow.classList.toggle('hidden');
+        }
+
+        function handleUserSubmit(e) {
+            e.preventDefault();
+            const input = document.getElementById('user-input');
+            const message = input.value.trim();
+            if (!message) return;
+
+            // Add User Message
+            addMessage(message, 'user');
+            input.value = '';
+
+            // Simulate Bot Thinking
+            setTimeout(() => {
+                const response = getBotResponse(message);
+                addMessage(response, 'bot');
+            }, 800);
+        }
+
+        function addMessage(text, sender) {
+            const container = document.getElementById('chat-messages');
+            const div = document.createElement('div');
+            div.className = `flex gap-2 ${sender === 'user' ? 'flex-row-reverse' : ''}`;
+            
+            const avatar = sender === 'bot' 
+                ? `<div class="w-8 h-8 bg-opelia-light rounded-full flex-shrink-0 flex items-center justify-center text-opelia-dark text-xs font-bold">O</div>`
+                : '';
+
+            const bubbleColor = sender === 'user' ? 'bg-opelia-dark text-white rounded-tr-none' : 'bg-white text-gray-700 rounded-tl-none shadow-sm';
+
+            div.innerHTML = `
+                ${avatar}
+                <div class="${bubbleColor} p-3 rounded-2xl text-sm max-w-[80%]">
+                    ${text}
+                </div>
+            `;
+            
+            container.appendChild(div);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function getBotResponse(input) {
+            const lowerInput = input.toLowerCase();
+            
+            if (lowerInput.includes('hello') || lowerInput.includes('hi')) return "Hello there! Welcome to Opelia. How can I help?";
+            if (lowerInput.includes('price') || lowerInput.includes('cost')) return "Our prices vary by item. Check the product cards or click 'Order' to see specific prices on WhatsApp!";
+            if (lowerInput.includes('shipping') || lowerInput.includes('delivery')) return "We offer worldwide shipping! Orders usually take 3-5 business days.";
+            if (lowerInput.includes('fashion')) return "We have lovely dresses, watches, and totes in our Fashion section.";
+            if (lowerInput.includes('frame') || lowerInput.includes('frames')) return "Our Frames collection includes elegant vases and lounge chairs.";
+            if (lowerInput.includes('party')) return "Looking to celebrate? Check out our Party Items for balloons and confetti!";
+            if (lowerInput.includes('contact') || lowerInput.includes('phone')) return "You can reach us via WhatsApp at +94 74 138 7363.";
+            
+            return "I'm not sure about that, but you can ask our human team on WhatsApp for more details!";
+        }
+
+        // --- Cart Logic ---
+        function toggleCart() {
+            const sidebar = document.getElementById('cart-sidebar');
+            const overlay = document.getElementById('cart-overlay');
+            if (sidebar.classList.contains('translate-x-full')) {
+                sidebar.classList.remove('translate-x-full');
+                overlay.classList.remove('hidden');
+            } else {
+                sidebar.classList.add('translate-x-full');
+                overlay.classList.add('hidden');
+            }
+        }
+
+        function scrollToShop() {
+            document.getElementById('shop').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Initialize
+        renderProducts();
+    </script>
+</body>
+</html>
