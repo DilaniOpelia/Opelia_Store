@@ -225,47 +225,57 @@
     </section>
 
     <!-- Customer Reviews Section -->
-    <section class="container mx-auto px-6 py-16">
-        <div class="text-center mb-12">
-            <h2 class="text-4xl font-italiana text-opelia-dark mb-4">Customer Testimonials</h2>
-            <p class="text-gray-600 max-w-2xl mx-auto">See what our happy customers have to say about their experience with Opelia</p>
+    <section class="container mx-auto px-4 md:px-6 py-12 md:py-16">
+        <div class="text-center mb-8 md:mb-12">
+            <h2 class="text-2xl md:text-4xl font-italiana text-opelia-dark mb-3 md:mb-4">Customer Testimonials</h2>
+            <p class="text-sm md:text-base text-gray-600 max-w-2xl mx-auto px-2">See what our happy customers have to say about their experience with Opelia</p>
         </div>
 
-        <div class="max-w-3xl mx-auto">
+        <div class="max-w-4xl mx-auto">
             <!-- Testimonials Container -->
-            <div id="testimonial-container" class="relative">
-                <div id="testimonial-slide" class="bg-white p-8 md:p-12 rounded-3xl shadow-lg testimonial-slide">
-                    <div class="flex items-center mb-4">
-                        <div class="flex text-opelia-dark text-lg">
+            <div id="testimonial-container" class="relative px-4 md:px-16">
+                <div id="testimonial-slide" class="bg-white p-6 md:p-8 lg:p-12 rounded-2xl md:rounded-3xl shadow-lg testimonial-slide">
+                    <div class="flex items-start md:items-center mb-4 gap-2">
+                        <div class="flex text-opelia-dark text-sm md:text-lg">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                         </div>
-                        <span class="ml-3 text-gray-600 font-poppins font-medium">5.0</span>
+                        <span class="text-gray-600 font-poppins font-medium text-sm md:text-base">5.0</span>
                     </div>
-                    <p id="testimonial-text" class="text-gray-700 mb-8 leading-relaxed font-poppins text-lg">
+                    <p id="testimonial-text" class="text-gray-700 mb-6 md:mb-8 leading-relaxed font-poppins text-base md:text-lg">
                         "Opelia has transformed my shopping experience! The quality of products is exceptional, and the customer service is outstanding."
                     </p>
-                    <div class="flex items-center gap-4 border-t border-gray-200 pt-6">
-                        <div id="testimonial-avatar" class="w-14 h-14 bg-opelia-light rounded-full flex items-center justify-center text-opelia-dark font-italiana font-bold text-lg">
+                    <div class="flex items-center gap-3 md:gap-4 border-t border-gray-200 pt-4 md:pt-6">
+                        <div id="testimonial-avatar" class="w-12 md:w-14 h-12 md:h-14 bg-opelia-light rounded-full flex-shrink-0 flex items-center justify-center text-opelia-dark font-italiana font-bold text-base md:text-lg">
                             S
                         </div>
-                        <div>
-                            <h4 id="testimonial-name" class="font-bold text-opelia-dark font-poppins text-lg">Sarah Mitchell</h4>
-                            <p id="testimonial-title" class="text-gray-500 text-sm font-poppins">Verified Buyer</p>
+                        <div class="min-w-0">
+                            <h4 id="testimonial-name" class="font-bold text-opelia-dark font-poppins text-sm md:text-lg truncate">Sarah Mitchell</h4>
+                            <p id="testimonial-title" class="text-gray-500 text-xs md:text-sm font-poppins">Verified Buyer</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Navigation Buttons -->
-                <button onclick="prevTestimonial()" class="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-12 md:-translate-x-16 bg-opelia-dark text-white w-10 h-10 rounded-full hover:bg-opacity-90 transition flex items-center justify-center">
+                <!-- Navigation Buttons - Hidden on mobile, visible on md and up -->
+                <button onclick="prevTestimonial()" class="hidden md:flex absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-14 lg:-translate-x-20 bg-opelia-dark text-white w-10 h-10 rounded-full hover:bg-opacity-90 transition items-center justify-center">
                     <i class="fas fa-chevron-left"></i>
                 </button>
-                <button onclick="nextTestimonial()" class="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-12 md:translate-x-16 bg-opelia-dark text-white w-10 h-10 rounded-full hover:bg-opacity-90 transition flex items-center justify-center">
+                <button onclick="nextTestimonial()" class="hidden md:flex absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-14 lg:translate-x-20 bg-opelia-dark text-white w-10 h-10 rounded-full hover:bg-opacity-90 transition items-center justify-center">
                     <i class="fas fa-chevron-right"></i>
                 </button>
+                
+                <!-- Navigation Buttons for Mobile - Below card -->
+                <div class="flex md:hidden justify-center gap-4 mt-6">
+                    <button onclick="prevTestimonial()" class="bg-opelia-dark text-white w-10 h-10 rounded-full hover:bg-opacity-90 transition flex items-center justify-center">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button onclick="nextTestimonial()" class="bg-opelia-dark text-white w-10 h-10 rounded-full hover:bg-opacity-90 transition flex items-center justify-center">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
             </div>
 
             <!-- Dots Indicator -->
